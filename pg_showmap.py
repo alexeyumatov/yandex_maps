@@ -25,12 +25,12 @@ def show_map(latitude, longitude, scale):
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_PAGEUP:
                 if int(scale) < 17:
                     scale = int(scale) + 1
                 response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
                 screen.blit(pygame.image.load(write_file(response)), (0, 0))
-            if event.key == pygame.K_DOWN:
+            if event.key == pygame.K_PAGEDOWN:
                 if int(scale) > 0:
                     scale = int(scale) - 1
                 response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
