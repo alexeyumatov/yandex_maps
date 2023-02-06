@@ -28,13 +28,26 @@ def show_map(latitude, longitude, scale):
             if event.key == pygame.K_PAGEUP:
                 if int(scale) < 17:
                     scale = int(scale) + 1
-                response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
-                screen.blit(pygame.image.load(write_file(response)), (0, 0))
             if event.key == pygame.K_PAGEDOWN:
                 if int(scale) > 0:
                     scale = int(scale) - 1
-                response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
-                screen.blit(pygame.image.load(write_file(response)), (0, 0))
+            if int(scale) > 10:
+                ratio = 0.005
+            else:
+                ratio = 0.01
+            if float(latitude) - ratio > 0 or float(longitude) - ratio > 0 or \
+                    float(latitude) + ratio < 90 or float(longitude) + ratio < 180:
+                if event.key == pygame.K_LEFT:
+                    latitude = float(latitude) - ratio
+                if event.key == pygame.K_UP:
+                    longitude = float(longitude) + ratio
+                if event.key == pygame.K_RIGHT:
+                    latitude = float(latitude) + ratio
+                if event.key == pygame.K_DOWN:
+                    longitude = float(longitude) - ratio
+
+            response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
+            screen.blit(pygame.image.load(write_file(response)), (0, 0))
             pygame.display.flip()
         clock.tick(FPS)
     pygame.quit()
