@@ -18,13 +18,4 @@ def get_map(ll_spn=None, map_type="map", add_params=None):
         print("Http статус:", response.status_code, "(", response.reason, ")")
         sys.exit(1)
 
-    # Запишем полученное изображение в файл.
-    map_file = "map.png"
-    try:
-        with open(map_file, "wb") as file:
-            file.write(response.content)
-    except IOError as ex:
-        print("Ошибка записи временного файла:", ex)
-        sys.exit(2)
-
-    return map_file
+    return response

@@ -2,9 +2,11 @@ from pg_showmap import show_map
 
 
 def main():
-    latitude, longitude = input(), input()
-    spn = input()
-    show_map(latitude, longitude, spn)
+    with open('request.txt', 'r', encoding='utf-8') as file:
+        output = file.readlines()
+        output = tuple([el.rstrip('\n') for el in output])
+        latitude, longitude, scale = output
+    show_map(latitude, longitude, scale)
 
 
 if __name__ == '__main__':

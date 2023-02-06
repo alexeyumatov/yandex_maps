@@ -1,12 +1,14 @@
 import pygame
 import os
 from samples.mapapi_PG import get_map
+from functions import write_file
 
-FPS = 24
+FPS = 60
 
 
-def show_map(latitude, longitude, spn):
-    map_file = get_map(f"ll={latitude},{longitude}&spn={spn}", "map")
+def show_map(latitude, longitude, scale):
+    response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
+    map_file = write_file(response)
     # Инициализируем pygame
     pygame.init()
     screen = pygame.display.set_mode((600, 450))
@@ -24,11 +26,17 @@ def show_map(latitude, longitude, spn):
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                pass
+                if int(scale) < 17:
+                    scale = int(scale) + 1
+                response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
+                screen.blit(pygame.image.load(write_file(response)), (0, 0))
             if event.key == pygame.K_DOWN:
-                pass
+                if int(scale) > 0:
+                    scale = int(scale) - 1
+                response = get_map(f"ll={latitude},{longitude}&z={scale}", "map")
+                screen.blit(pygame.image.load(write_file(response)), (0, 0))
+            pygame.display.flip()
         clock.tick(FPS)
-
     pygame.quit()
     # Удаляем за собой файл с изображением.
     os.remove(map_file)
