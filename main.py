@@ -1,10 +1,10 @@
-from samples.mapapi_PG import show_map
+from pg_showmap import show_map
 
 
 def main():
-    latitude, lontitude = input(), input()
+    latitude, longitude = input(), input()
     spn = input()
-    show_map(f"ll={latitude},{lontitude}&spn={spn}", "map")
+    show_map(latitude, longitude, spn)
 
 
 if __name__ == '__main__':
